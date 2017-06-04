@@ -1,8 +1,6 @@
 #!/bin/bash -e
 
-deactivate || true
-
-source /opt/kairos/venv/bin/activate
+. ${KAIROS_VENV}/bin/activate
 
 PYPIRC=/opt/kairos/etc/pypirc
 

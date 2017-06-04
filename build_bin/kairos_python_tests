@@ -1,8 +1,6 @@
 #!/bin/bash -e
 
-deactivate || true
-
-source /opt/kairos/venv/bin/activate
+. ${KAIROS_VENV}/bin/activate
 
 COVERAGE_OUTPUT=${COVERAGE_OUTPUT:-${CIRCLE_TEST_REPORTS}/coverage}
 TEST_OUTPUT=${TEST_OUTPUT:-${CIRCLE_TEST_REPORTS}/nosetests}

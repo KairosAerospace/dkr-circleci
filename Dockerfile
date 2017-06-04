@@ -69,7 +69,7 @@ RUN . /opt/kairos/venv/bin/activate \
 COPY build_bin/ /opt/kairos/bin
 RUN chmod -R 755 /opt/kairos/bin
 ENV PATH /opt/kairos/bin:$PATH
-
+ENV KAIROS_VENV /opt/kairos/venv
 WORKDIR /opt/kairos/build-home
 
 ENTRYPOINT ["/bin/bash", "-c", ". /opt/kairos/bin/kairos_init && /bin/bash"]

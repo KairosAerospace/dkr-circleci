@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-deactivate || true
-
-source /opt/kairos/venv/bin/activate
+. $KAIROS_VENV/bin/activate
 
 python setup.py install

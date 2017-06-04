@@ -1,8 +1,6 @@
 #!/bin/bash -e
 
-deactivate || true
-
-VIRTUALENV_PATH=${VIRTUALENV_PATH:-/opt/kairos/venv}
+VIRTUALENV_PATH=${KAIROS_VENV:-/opt/kairos/venv}
 
 if [ ! -d $VIRTUALENV_PATH ]; then
   echo "No virtualenv found at ${VIRTUALENV_PATH}! Exiting" && exit 1
@@ -25,9 +23,8 @@ else
    echo "(Set KAIROS_PYPI_USERNAME, KAIROS_PYPI_API_KEY, and KAIROS_PYPI_URL to enable pip configuration)"
    exit 2
 fi
-cat ${VIRTUALENV_PATH}/pip.conf
 
-source ${VIRTUALENV_PATH}/bin/activate
+. ${VIRTUALENV_PATH}/bin/activate
 pip install --upgrade kairos-buildlib
 deactivate
 

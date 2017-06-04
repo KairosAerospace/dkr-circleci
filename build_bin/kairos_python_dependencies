@@ -1,8 +1,10 @@
 #!/bin/bash
 
-deactivate || true
+. ${KAIROS_VENV}/bin/activate
 
-source /opt/kairos/venv/bin/activate
+which python
+which pip
+pip --version
 
 if [ -f requirements.txt ]; then
   pip install -r requirements.txt
