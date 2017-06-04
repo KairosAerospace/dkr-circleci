@@ -56,3 +56,12 @@ username = ${KAIROS_PUBLISH_USER}
 repository = https://${KAIROS_PYPI_PUBLISH_URL}
 EOF
 fi
+
+if [ ! -f maps-key.txt ]; then
+  if [ ! -z "${KAIROS_MAPS_KEY}" ]; then
+    echo ${KAIROS_MAPS_KEY} >> maps-key.txt
+    echo "Wrote map key to maps-key.txt"
+  else
+    echo "No maps key available."
+  fi
+fi

@@ -66,6 +66,10 @@ RUN . /opt/kairos/venv/bin/activate \
   && pip install --upgrade pip setuptools twine wheel coverage credstash\
   && deactivate
 
+RUN . /opt/kairos/venv/bin/activate \
+  && pip install awscli
+  && aws configure set default.s3.signature_version s3v4
+
 COPY build_bin/ /opt/kairos/bin
 RUN chmod -R 755 /opt/kairos/bin
 ENV PATH /opt/kairos/bin:$PATH
