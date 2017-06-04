@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+. $(which kairos_env_init)
+
+echo "Preserving virtual environment: dist/build-virtualenv.tgz"
+(cd /opt/kairos && tar zcf - venv) > dist/build-virtualenv.tgz

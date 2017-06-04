@@ -8,8 +8,6 @@ if [ -f ./.pypirc ]; then
   PYPIRC=./.pypirc
 fi
 
-# build artifacts to be stored with the build
-python setup.py sdist bdist_wheel
 
 if [[ "${CIRCLE_BRANCH}" =~ ([xmp]-.*|master) ]]; then
   twine upload -u $KAIROS_PUBLISH_USER -p $KAIROS_PUBLISH_API_KEY -r artifactory-python3 --config-file $PYPIRC ./dist/*

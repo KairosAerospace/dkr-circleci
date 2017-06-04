@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+. $(which kairos_env_init)
+
+# build artifacts to be stored with the build
+python setup.py sdist bdist_wheel
