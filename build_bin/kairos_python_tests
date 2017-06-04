@@ -1,13 +1,13 @@
 #!/bin/bash -e
 
-. ${KAIROS_VENV}/bin/activate
+. $(which kairos_env_init)
 
 COVERAGE_OUTPUT=${COVERAGE_OUTPUT:-${CIRCLE_TEST_REPORTS}/coverage}
 TEST_OUTPUT=${TEST_OUTPUT:-${CIRCLE_TEST_REPORTS}/nosetests}
 
 mkdir -p $COVERAGE_OUTPUT
-mkdir -p $TEST_COVERAGE
+mkdir -p $TEST_OUTPUT
 
 python setup.py nosetests -s --cover-html --cover-html-dir $COVERAGE_OUTPUT
 
-cp nosetests.xml $TEST_COVERAGE
+cp nosetests.xml $TEST_OUTPUT
