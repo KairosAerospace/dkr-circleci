@@ -60,7 +60,7 @@ RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/build-home
 
 # create an empty python virtual env for the build
-RUN virtualenv -p `which python3` --prompt=kairos-python3 /opt/kairos/venv
+RUN virtualenv -p `which python3` --prompt="(kairos-python3)" /opt/kairos/venv
 
 RUN . /opt/kairos/venv/bin/activate \
   && pip install --upgrade pip setuptools twine wheel coverage credstash\
@@ -72,5 +72,4 @@ ENV PATH /opt/kairos/bin:$PATH
 ENV KAIROS_VENV /opt/kairos/venv
 WORKDIR /opt/kairos/build-home
 
-ENTRYPOINT ["bash_wrapper"]
-SHELL ["bash_wrapper", "-e"]
+ENTRYPOINT  . $(which kairos_env_init) && /bin/bash

@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
-. $KAIROS_VENV/bin/activate
+. $(which kairos_env_init)
 
 python setup.py install

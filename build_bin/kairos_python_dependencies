@@ -1,10 +1,7 @@
 #!/bin/bash
 
-. ${KAIROS_VENV}/bin/activate
+. $(which kairos_env_init)
 
-which python
-which pip
-pip --version
 
 if [ -f requirements.txt ]; then
   pip install -r requirements.txt

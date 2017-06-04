@@ -22,16 +22,30 @@ check_env AWS_DEFAULT_REGION
 SECRET_SET_NAME=${SECRET_SET_NAME:-default-build-secrets}
 CREDSTASH_TABLE=${CREDSTASH_TABLE:-circleci-secrets}
 
+if [ ! -f .credentials ]; then
+  echo "Downloading secrets via credstash"
+  credstash -t ${CREDSTASH_TABLE} get ${SECRET_SET_NAME} > .credentials
+else
+  echo "Found cached secrets"
+fi
+
 # pull the secrets out of a { "name": "value" } JSON object and
 # export them into our environment.
-eval $(credstash -t ${CREDSTASH_TABLE} get ${SECRET_SET_NAME} | \
-         jq -r 'to_entries | .[] | "export " + .key+ "=\"" + .value + "\""')
+echo "Publishing secrets as environment variables"
+eval $(jq -r 'to_entries | .[] | "export " + .key+ "=\"" + .value + "\""' \
+        < .credentials)
 
 
-if [ ! -f $VIRTUALENV/pip.conf ]; then
+if [ ! -f $VIRTUAL_ENV/pip.conf ]; then
+  echo "Wiring virtualenv"
   # pure side effect
   (wire_virtualenv)
+else
+  echo "Found wired virtualenv"
+fi
 
+if [ ! -f /opt/kairos/etc/pypirc ]; then
+  echo "Wiring package publishing config"
   # set up publishing default
   cat - > /opt/kairos/etc/pypirc <<EOF
 [distutils]
@@ -41,8 +55,6 @@ index-servers = artifactory-python3
 username = ${KAIROS_PUBLISH_USER}
 repository = https://${KAIROS_PYPI_PUBLISH_URL}
 EOF
-
 fi
-
 
 exec /bin/bash
