@@ -56,5 +56,3 @@ username = ${KAIROS_PUBLISH_USER}
 repository = https://${KAIROS_PYPI_PUBLISH_URL}
 EOF
 fi
-
-exec /bin/bash
