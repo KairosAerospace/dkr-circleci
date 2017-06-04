@@ -1,0 +1,14 @@
+#!/bin/bash -e
+
+PYPIRC=/opt/kairos/etc/pypirc
+
+if [ -f ./.pypirc ]; then
+  PYPIRC=./.pypirc
+fi
+
+if [[ "${CIRCLE_BRANCH}" =~ ([xmp]-.*|master) ]]; then
+  python setup.py sdist bdist_wheel
+  twine upload -u $KAIROS_PUBLISH_USER -p $KAIROS_PUBLISH_API_KEY -r artifactory-python3 --config-file $PYPIRC ./dist/*
+else
+  echo "No deployment configured for branch ${CIRCLE_BRANCH}"
+fi

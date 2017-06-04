@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -f requirements.txt ]; then
+  pip install -r requirements.txt
+else
+  echo "WARNING: no requirements file found. (this is likely a bug)"
+  exit 1
+fi

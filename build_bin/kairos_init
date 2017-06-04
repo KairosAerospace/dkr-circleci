@@ -1,0 +1,42 @@
+#!/bin/bash -ex
+
+# NOTE: this script must be sourced, not run directly.
+#       It is designed to munge the environment for
+#       builds, placing super-secret-squirrel
+#       credentials in the right place.
+
+. /opt/kairos/venv/bin/activate
+
+check_env () {
+  if [ -z "${!1}" ]; then
+    echo "No ${1} defined!" 1>&2
+    exit 1
+  fi
+  return 0
+}
+
+check_env AWS_SECRET_ACCESS_KEY
+check_env AWS_ACCESS_KEY_ID
+check_env AWS_DEFAULT_REGION
+
+SECRET_SET_NAME=${SECRET_SET_NAME:-default-build-secrets}
+CREDSTASH_TABLE=${CREDSTASH_TABLE:-circleci-secrets}
+
+# pull the secrets out of a { "name": "value" } JSON object and
+# export them into our environment.
+eval $(credstash -t ${CREDSTASH_TABLE} get ${SECRET_SET_NAME} | \
+         jq -r 'to_entries | .[] | "export " + .key+ "=\"" + .value + "\""')
+
+
+# pure side effect
+(wire_virtualenv)
+
+# set up publishing default
+cat - > /opt/kairos/etc/pypirc <<EOF
+[distutils]
+index-servers = artifactory-python3
+
+[artifactory-python3]
+username = ${KAIROS_PUBLISH_USER}
+repository = https://${KAIROS_PYPI_PUBLISH_URL}
+EOF

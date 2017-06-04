@@ -1,0 +1,34 @@
+#!/bin/bash -e
+
+deactivate || true
+
+VIRTUALENV_PATH=${VIRTUALENV_PATH:-/opt/kairos/venv}
+
+if [ ! -d $VIRTUALENV_PATH ]; then
+  echo "No virtualenv found at ${VIRTUALENV_PATH}! Exiting" && exit 1
+fi
+
+if [ ! -z "${KAIROS_PYPI_USERNAME}" -a ! -z "${KAIROS_PYPI_API_KEY}" -a ! -z "${KAIROS_PYPI_URL}" ]; then
+   echo "Found Artifactory environment variables - will configure pip to use the Kairos repository"
+   echo "KAIROS_PYPI_USERNAME=${KAIROS_PYPI_USERNAME}"
+   echo "KAIROS_PYPI_API_KEY=${KAIROS_PYPI_API_KEY:0:6}...${KAIROS_PYPI_API_KEY:$((-6)):6}"
+
+   cat > ${VIRTUALENV_PATH}/pip.conf <<-EOF
+[global]
+index-url=https://${KAIROS_PYPI_USERNAME}:${KAIROS_PYPI_API_KEY}@${KAIROS_PYPI_URL}/simple
+
+[search]
+index=https://${KAIROS_PYPI_USERNAME}:${KAIROS_PYPI_API_KEY}@${KAIROS_PYPI_URL}
+EOF
+else
+   echo "No PyPI configuration found. Skipping pip configuration."
+   echo "(Set KAIROS_PYPI_USERNAME, KAIROS_PYPI_API_KEY, and KAIROS_PYPI_URL to enable pip configuration)"
+   exit 2
+fi
+cat ${VIRTUALENV_PATH}/pip.conf
+
+source ${VIRTUALENV_PATH}/bin/activate
+pip install --upgrade kairos-buildlib
+deactivate
+
+echo "virtualenv at ${VIRTUALENV_PATH} now wired to Kairos PyPI repository"

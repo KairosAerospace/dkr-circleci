@@ -1,0 +1,11 @@
+#!/bin/bash -e
+
+COVERAGE_OUTPUT=${COVERAGE_OUTPUT:-${CIRCLE_TEST_REPORTS}/coverage}
+TEST_OUTPUT=${TEST_OUTPUT:-${CIRCLE_TEST_REPORTS}/nosetests}
+
+mkdir -p $COVERAGE_OUTPUT
+mkdir -p $TEST_COVERAGE
+
+python setup.py nosetests -s --cover-html --cover-html-dir $COVERAGE_OUTPUT
+
+cp nosetests.xml $TEST_COVERAGE
