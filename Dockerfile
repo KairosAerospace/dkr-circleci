@@ -63,11 +63,11 @@ RUN mkdir -p /opt/kairos \
 RUN virtualenv -p `which python3` --prompt="(kairos-python3)" /opt/kairos/venv
 
 RUN . /opt/kairos/venv/bin/activate \
-  && pip install --upgrade pip setuptools twine wheel coverage credstash\
+  && pip install --upgrade pip setuptools twine wheel coverage credstash \
   && deactivate
 
 RUN . /opt/kairos/venv/bin/activate \
-  && pip install awscli
+  && pip install awscli \
   && aws configure set default.s3.signature_version s3v4
 
 COPY build_bin/ /opt/kairos/bin
