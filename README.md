@@ -54,3 +54,9 @@ Given those variables, it then:
 
 
 [1]: https://github.com/fugue/credstash
+
+# License
+
+This source code is made available under the [MIT License](default-build-secrets).  See LICENSE for more information.
+
+&#169; Kairos Aerospace 2017.  All Rights Reserved.
