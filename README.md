@@ -59,4 +59,4 @@ Given those variables, it then:
 
 This source code is made available under the [MIT License](default-build-secrets).  See LICENSE for more information.
 
-&#169; Kairos Aerospace 2017.  All Rights Reserved.
+&#169; 2017 Kairos Aerospace.  All Rights Reserved.
