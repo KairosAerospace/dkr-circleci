@@ -2,11 +2,11 @@
 
 . $(which kairos_env_init)
 
-COVERAGE_OUTPUT=${COVERAGE_OUTPUT:-${CIRCLE_TEST_REPORTS}/coverage}
-TEST_OUTPUT=${TEST_OUTPUT:-${CIRCLE_TEST_REPORTS}/nosetests}
+COVERAGE_OUTPUT=test-output/coverage
+TEST_OUTPUT=test-output/nosetests
 
-mkdir -p $COVERAGE_OUTPUT
-mkdir -p $TEST_OUTPUT
+mkdir -p ${TEST_OUTPUT}
+mkdir -p ${COVERAGE_OUTPUT}
 
 python setup.py nosetests -s --cover-html --cover-html-dir $COVERAGE_OUTPUT
 
