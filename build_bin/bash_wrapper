@@ -1,11 +1,11 @@
-#!/bin/bash -ex
+#!/bin/bash -e
 
 # NOTE: this script must be sourced, not run directly.
 #       It is designed to munge the environment for
 #       builds, placing super-secret-squirrel
 #       credentials in the right place.
 
-. /opt/kairos/venv/bin/activate
+. ${KAIROS_VENV}/bin/activate
 
 check_env () {
   if [ -z "${!1}" ]; then
@@ -28,11 +28,12 @@ eval $(credstash -t ${CREDSTASH_TABLE} get ${SECRET_SET_NAME} | \
          jq -r 'to_entries | .[] | "export " + .key+ "=\"" + .value + "\""')
 
 
-# pure side effect
-(wire_virtualenv)
+if [ ! -f $VIRTUALENV/pip.conf ]; then
+  # pure side effect
+  (wire_virtualenv)
 
-# set up publishing default
-cat - > /opt/kairos/etc/pypirc <<EOF
+  # set up publishing default
+  cat - > /opt/kairos/etc/pypirc <<EOF
 [distutils]
 index-servers = artifactory-python3
 
@@ -40,3 +41,8 @@ index-servers = artifactory-python3
 username = ${KAIROS_PUBLISH_USER}
 repository = https://${KAIROS_PYPI_PUBLISH_URL}
 EOF
+
+fi
+
+
+exec /bin/bash

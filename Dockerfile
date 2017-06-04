@@ -72,5 +72,5 @@ ENV PATH /opt/kairos/bin:$PATH
 ENV KAIROS_VENV /opt/kairos/venv
 WORKDIR /opt/kairos/build-home
 
-ENTRYPOINT ["/bin/bash", "-c", ". /opt/kairos/bin/kairos_init && /bin/bash"]
-CMD /bin/bash
+ENTRYPOINT ["bash_wrapper"]
+SHELL ["bash_wrapper", "-e"]
