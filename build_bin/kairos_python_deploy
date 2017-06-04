@@ -1,5 +1,9 @@
 #!/bin/bash -e
 
+deactivate || true
+
+source /opt/kairos/venv/bin/activate
+
 PYPIRC=/opt/kairos/etc/pypirc
 
 if [ -f ./.pypirc ]; then
