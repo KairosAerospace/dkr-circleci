@@ -1,0 +1,41 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: kairosaero/dkr-circleci
+        entrypoint: . $(which kairos_env_init) && /bin/bash
+    working_directory: /opt/kairos/build-home/circleci_utils
+    steps:
+      - checkout
+      - run:
+         name: environment setup
+         command: kairos_env_init
+      - run:
+          name: python dependencies
+          command: kairos_python_dependencies
+      - run:
+          name: python build
+          command: kairos_python_build
+      - run:
+          name: python tests
+          command: kairos_python_tests
+      - run:
+          name: python package
+          command: kairos_python_package
+      - run:
+          name: python deploy
+          command: kairos_python_deploy
+      - run:
+          name: build cleanup
+          command: kairos_python_cleanup
+      - store_artifacts:
+          path: test-output
+          destination: test-output
+      - store_artifacts:
+          path: dist
+          destination: build-artifacts
+      - store_test_results:
+          path: test-output
+notify:
+  webhooks:
+    - url: https://bdoa77w3h0.execute-api.us-west-2.amazonaws.com/webhook/
