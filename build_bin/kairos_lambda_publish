@@ -25,7 +25,7 @@ if [ ! -z "${LAMBDA_NAME}" ]; then
   mkdir lambda_build
   pip install -q --log logs/lamdba-requirements-install.log -t lambda_build -r requirements.txt
   pip install -q --log logs/lamdba-package-install.log -t lambda_build .
-  (cd lambda_build && zip -r ../dist/lambda.zip .)
+  (cd lambda_build && zip -r --quiet ../dist/lambda.zip .)
 
   echo "Pushing lambda packages to s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/"
   # push to S3 bucket to deploy lambda code
@@ -34,7 +34,7 @@ if [ ! -z "${LAMBDA_NAME}" ]; then
 
   echo "Configuring lambda via AWS APIs"
   # create-or-update lambda function
-  if ! aws lambda get-function --function-name $LAMBDA_NAME; then
+  if ! aws lambda get-function --function-name $LAMBDA_NAME > /dev/null 2>&1 ; then
     aws lambda create-function --function-name $LAMBDA_NAME --runtime python3.6 \
       --role ${LAMBDA_ROLE} --handler ${LAMBDA_HANDLER} \
       --code S3Bucket=${LAMBDA_BUCKET},S3Key=${LAMBDA_PATH}/${LAMBDA_ZIP}
