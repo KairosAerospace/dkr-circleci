@@ -6,7 +6,7 @@ script_init # install error hooks
 
 if [ -f requirements.txt ]; then
   echo "Installing dependencies from requirements.txt."
-  echo " See `dependencies-install.log` in artifacts for detailed output"
+  echo " See logs/dependencies-install.log in artifacts for detailed output"
   mkdir -p dist
   pip install -q --log logs/dependencies-install.log -r requirements.txt
 else
