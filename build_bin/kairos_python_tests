@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
 . $(which kairos_env_init)
+script_init # install error hooks
 
 # enable multiprocessing - all cores
 export NOSE_PROCESSES=-1

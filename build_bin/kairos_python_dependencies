@@ -1,6 +1,7 @@
 #!/bin/bash
 
 . $(which kairos_env_init)
+script_init # install error hooks
 
 
 if [ -f requirements.txt ]; then

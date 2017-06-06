@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
 . $(which kairos_env_init)
+script_init # install error hooks
 
 python setup.py install

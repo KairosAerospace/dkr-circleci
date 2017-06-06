@@ -5,6 +5,29 @@
 #       builds, placing super-secret-squirrel
 #       credentials in the right place.
 
+# A function to be installed as the error handler (call script_init to install)
+error_hook() {
+  error_source=${BASH_SOURCE[1]}:${BASH_LINENO[0]}
+  echo "Error at: ${error_source}" 1>&2
+}
+
+# setups up the error handling in a script
+script_init() {
+  trap error_hook ERR
+}
+
+# shortcut to exit with error and error message.
+# Invoke with: error_exit <rc> <message>
+#
+# Note: this will not invoke the error handler
+error_exit() {
+  RC=$1
+  MESSAGE=$2
+  ERROR_SOURCE=${BASH_SOURCE[1]}:${BASH_LINENO[0]}
+  echo "$MESSAGE (from $ERROR_SOURCE)" 1>&2
+  exit $RC
+}
+
 . ${KAIROS_VENV}/bin/activate
 
 check_env () {
