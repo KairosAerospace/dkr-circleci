@@ -1,10 +1,13 @@
 # kairosaero/circleci-build
 
-A Docker container for use as a [CircleCI 2.0 Primary Container](https://circleci.com/docs/2.0/custom-images/)
+A Docker container for use as a [CircleCI 2.0 Primary Container][1]
 
 *NOTE TO KAIROS EMPLOYEES* - _this is a public repository and should contain no proprietary information or credentials._
 
-Available on Docker Hub as `kairosaero/circleci-build`.
+Available on Docker Hub as `[kairosaero/circleci-build][2]`.
+
+[1]: https://circleci.com/docs/2.0/custom-images/
+[2]: https://hub.docker.com/r/kairosaero/dkr-circleci/
 
 ## Overview
 
@@ -42,7 +45,7 @@ Optionally:
 
 Given those variables, it then:
 
-1. Uses [credstash][1] to pull down JSON defining all environment variables
+1. Uses [credstash][3] to pull down JSON defining all environment variables
    containing secrets (see `build_secrets_template.json`)
 2. Transforms the JSON with jq and injects the variable values into the
    environment
@@ -53,7 +56,7 @@ Given those variables, it then:
 6. Activates the virtualenv for all docker commands run in the container
 
 
-[1]: https://github.com/fugue/credstash
+[3]: https://github.com/fugue/credstash
 
 # License
 
