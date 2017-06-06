@@ -26,6 +26,9 @@ jobs:
           name: python deploy
           command: kairos_python_deploy
       - run:
+          name: python lambda publish
+          command: kairos_lambda_publish
+      - run:
           name: build cleanup
           command: kairos_python_cleanup
       - store_artifacts:

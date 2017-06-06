@@ -1,0 +1,44 @@
+#!/bin/bash -e
+
+. $(which kairos_env_init)
+
+check_env () {
+  if [ -z "${!1}" ]; then
+    echo "No ${1} defined!" 1>&2
+    exit 1
+  fi
+  return 0
+}
+
+if [ ! -z "${LAMBDA_NAME}" ]; then
+
+
+  check_env LAMBDA_BUCKET
+  check_env LAMBDA_PATH
+  check_env LAMBDA_ROLE
+  check_env LAMBDA_ZIP
+  check_env LAMBDA_HANDLER
+
+  # build lambda package
+  mkdir lambda_build
+  pip install -t lambda_build -r requirements.txt
+  pip install -t lambda_build .
+  (cd lambda_build && zip -r ../dist/lambda.zip .)
+
+  # push to S3 bucket to deploy lambda code
+  aws s3 cp ../dist/lambda.zip s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/${LAMBDA_ZIP}
+  aws s3 cp ../dist/lambda.zip s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/lambda-${CIRCLE_BUILD_NUM}.zip
+
+  # create-or-update lambda function
+  if ! aws lambda get-function --function-name $LAMBDA_NAME; then
+    aws lambda create-function --function-name $LAMBDA_NAME --runtime python3.6 \
+      --role ${LAMBDA_ROLE} --handler ${LAMBDA_HANDLER} \
+      --code S3Bucket=${LAMBDA_BUCKET},S3Key=${LAMBDA_PATH}/${LAMBDA_ZIP}
+  else
+    aws lambda update-function-code --function-name ${LAMBDA_NAME} \
+    --s3-bucket ${LAMBDA_BUCKET} --s3-key ${LAMBDA_PATH}/${LAMBDA_ZIP} \
+    --publish
+  fi
+else
+  echo "No lamdba deployment defined. Skipping."
+fi

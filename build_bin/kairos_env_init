@@ -65,3 +65,9 @@ if [ ! -f maps-key.txt ]; then
     echo "No maps key available."
   fi
 fi
+
+if [ -f .circleci/kairos-lambda.json ]; then
+  # pull in lambda config
+  eval $(jq -r 'to_entries | .[] | "export " + .key+ "=\"" + .value + "\""' \
+          < .circleci/kairos-lambda.json)
+fi
