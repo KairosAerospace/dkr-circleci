@@ -37,6 +37,9 @@ jobs:
       - store_artifacts:
           path: dist
           destination: build-artifacts
+      - store_artifacts:
+          path: logs
+          destination: logs
       - store_test_results:
           path: test-output
 notify:

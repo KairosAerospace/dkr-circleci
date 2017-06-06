@@ -23,8 +23,8 @@ if [ ! -z "${LAMBDA_NAME}" ]; then
   # build lambda package
   echo "Building lambda package: dist/lambda.zip"
   mkdir lambda_build
-  pip install -q --log dist/lamdba-requirements-install.log -t lambda_build -r requirements.txt
-  pip install -q --log dist/lamdba-package-install.log -t lambda_build .
+  pip install -q --log logs/lamdba-requirements-install.log -t lambda_build -r requirements.txt
+  pip install -q --log logs/lamdba-package-install.log -t lambda_build .
   (cd lambda_build && zip -r ../dist/lambda.zip .)
 
   echo "Pushing lambda packages to s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/"

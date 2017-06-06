@@ -94,3 +94,6 @@ if [ -f .circleci/kairos-lambda.json ]; then
   eval $(jq -r 'to_entries | .[] | "export " + .key+ "=\"" + .value + "\""' \
           < .circleci/kairos-lambda.json)
 fi
+
+# make sure certain directories exist
+mkdir -p logs
