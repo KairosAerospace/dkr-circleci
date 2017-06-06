@@ -2,12 +2,15 @@
 
 . $(which kairos_env_init)
 
+# enable multiprocessing - all cores
+export NOSE_PROCESSES=-1
+
 COVERAGE_OUTPUT=test-output/coverage
 TEST_OUTPUT=test-output/nosetests
 
 mkdir -p ${TEST_OUTPUT}
 mkdir -p ${COVERAGE_OUTPUT}
 
-python setup.py nosetests -s --cover-html --cover-html-dir $COVERAGE_OUTPUT
+python setup.py nosetests --cover-html --cover-html-dir $COVERAGE_OUTPUT
 
 cp nosetests.xml $TEST_OUTPUT
