@@ -5,7 +5,8 @@ script_init # install error hooks
 
 
 if [ -f requirements.txt ]; then
-  pip install -r requirements.txt
+  mkdir -p dist
+  pip install -q --log dist/dependencies-install.log -r requirements.txt
 else
   echo "WARNING: no requirements file found. (this is likely a bug)"
   exit 1

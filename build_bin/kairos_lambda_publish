@@ -21,15 +21,18 @@ if [ ! -z "${LAMBDA_NAME}" ]; then
   check_env LAMBDA_HANDLER
 
   # build lambda package
+  echo "Building lambda package: dist/lambda.zip"
   mkdir lambda_build
-  pip install -t lambda_build -r requirements.txt
-  pip install -t lambda_build .
+  pip install -q --log dist/lamdba-requirements-install.log -t lambda_build -r requirements.txt
+  pip install -q --log dist/lamdba-package-install.log -t lambda_build .
   (cd lambda_build && zip -r ../dist/lambda.zip .)
 
+  echo "Pushing lambda packages to s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/"
   # push to S3 bucket to deploy lambda code
-  aws s3 cp ../dist/lambda.zip s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/${LAMBDA_ZIP}
-  aws s3 cp ../dist/lambda.zip s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/lambda-${CIRCLE_BUILD_NUM}.zip
+  aws s3 cp --only-show-errors dist/lambda.zip s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/${LAMBDA_ZIP}
+  aws s3 cp --only-show-errors dist/lambda.zip s3://${LAMBDA_BUCKET}/${LAMBDA_PATH}/lambda-${CIRCLE_BUILD_NUM}.zip
 
+  echo "Configuring lambda via AWS APIs"
   # create-or-update lambda function
   if ! aws lambda get-function --function-name $LAMBDA_NAME; then
     aws lambda create-function --function-name $LAMBDA_NAME --runtime python3.6 \
@@ -40,6 +43,7 @@ if [ ! -z "${LAMBDA_NAME}" ]; then
     --s3-bucket ${LAMBDA_BUCKET} --s3-key ${LAMBDA_PATH}/${LAMBDA_ZIP} \
     --publish
   fi
+  echo "Lambda publishing compelete"
 else
   echo "No lamdba deployment defined. Skipping."
 fi
