@@ -51,8 +51,13 @@ RUN apt-get install -y \
     daemon \
     file \
     sudo \
-    jq
-
+    jq \
+    less \
+    manpages \
+    man \
+    vim \
+    zip
+    
 # create some directories that we may expect to exist
 RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/etc \
