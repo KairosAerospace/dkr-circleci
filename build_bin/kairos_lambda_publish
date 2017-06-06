@@ -35,9 +35,7 @@ if [ ! -z "${LAMBDA_NAME}" ]; then
   echo "Configuring lambda via AWS APIs"
   # create-or-update lambda function
   if ! aws lambda get-function --function-name $LAMBDA_NAME > /dev/null 2>&1 ; then
-    aws lambda create-function --function-name $LAMBDA_NAME --runtime python3.6 \
-      --role ${LAMBDA_ROLE} --handler ${LAMBDA_HANDLER} \
-      --code S3Bucket=${LAMBDA_BUCKET},S3Key=${LAMBDA_PATH}/${LAMBDA_ZIP}
+    error_exit 2 "You must create the lambda function via the console first."
   else
     aws lambda update-function-code --function-name ${LAMBDA_NAME} \
     --s3-bucket ${LAMBDA_BUCKET} --s3-key ${LAMBDA_PATH}/${LAMBDA_ZIP} \
