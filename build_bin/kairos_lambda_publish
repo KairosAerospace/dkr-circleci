@@ -40,7 +40,7 @@ if [ ! -z "${LAMBDA_NAME}" ]; then
     aws lambda update-function-code --function-name ${LAMBDA_NAME} \
     --s3-bucket ${LAMBDA_BUCKET} --s3-key ${LAMBDA_PATH}/${LAMBDA_ZIP} \
     --publish
-    aws lambda update-function-configuration --function-name ${LAMDA_NAME} \
+    aws lambda update-function-configuration --function-name ${LAMBDA_NAME} \
       --description "${CIRCLE_PROJECT_REPONAME}#${CIRCLE_SHA1:0:7} (build ${CIRCLE_BUILD_NUM})"
   fi
   echo "Lambda publishing compelete"
