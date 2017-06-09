@@ -4,7 +4,7 @@ jobs:
     docker:
       - image: kairosaero/dkr-circleci
         entrypoint: . $(which kairos_env_init) && /bin/bash
-    working_directory: /opt/kairos/build-home/circleci_utils
+    working_directory: /opt/kairos/build-home/repo
     steps:
       - checkout
       - run:

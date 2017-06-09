@@ -30,6 +30,9 @@ error_exit() {
 
 . ${KAIROS_VENV}/bin/activate
 
+export LC_ALL=C.UTF-8
+export LANG=C.UTF-8
+
 check_env () {
   if [ -z "${!1}" ]; then
     echo "No ${1} defined!" 1>&2
