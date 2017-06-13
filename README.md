@@ -4,7 +4,7 @@ A Docker container for use as a [CircleCI 2.0 Primary Container][1]
 
 *NOTE TO KAIROS EMPLOYEES* - _this is a public repository and should contain no proprietary information or credentials._
 
-Available on Docker Hub as `[kairosaero/circleci-build][2]`.
+Available on Docker Hub as [kairosaero/circleci-build][2].
 
 [1]: https://circleci.com/docs/2.0/custom-images/
 [2]: https://hub.docker.com/r/kairosaero/dkr-circleci/

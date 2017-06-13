@@ -3,6 +3,6 @@
   "LAMBDA_BUCKET": "devops.kairos.ae",
   "LAMBDA_PATH": "lambdas/<name>",
   "LAMBDA_ZIP": "lambda.zip",
-  "LAMBDA_ROLE": "arn:aws:iam::137296740171:role/service-role/<role>",
+  "LAMBDA_ROLE": "arn:aws:iam::XXXXXXXXXX:role/service-role/<role>",
   "LAMBDA_HANDLER": "module.handler"
 }
