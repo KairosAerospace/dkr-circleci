@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eo pipefail
 
 . $(which kairos_env_init)
 script_init # install error hooks
@@ -8,7 +8,9 @@ if [ -f requirements.txt ]; then
   echo "Installing dependencies from requirements.txt."
   echo " See logs/dependencies-install.log in artifacts for detailed output"
   mkdir -p dist
-  pip install --log logs/dependencies-install.log -r requirements.txt
+  # pipe to cat to suppress the status bars.
+  # pipefail shell option means we still bail on error
+  pip install --log logs/dependencies-install.log -r requirements.txt | cat
 else
   echo "WARNING: no requirements file found. (this is likely a bug)"
   exit 1
