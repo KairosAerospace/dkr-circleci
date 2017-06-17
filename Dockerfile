@@ -57,7 +57,7 @@ RUN apt-get install -y \
     man \
     vim \
     zip
-    
+
 # create some directories that we may expect to exist
 RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/etc \
@@ -65,6 +65,8 @@ RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/sbin \
   && mkdir -p /opt/kairos/bin \
   && mkdir -p /opt/kairos/build-home
+
+RUN apt-get -y remove virtualenv && pip2 install virtualenv
 
 # create an empty python virtual env for the build
 RUN virtualenv -p `which python3` --prompt="(kairos-python3)" /opt/kairos/venv
