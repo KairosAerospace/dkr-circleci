@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: kairosaero/dkr-circleci
+      - image: kairosaero/dkr-circleci:production
         entrypoint: . $(which kairos_env_init) && /bin/bash
     working_directory: /opt/kairos/build-home/repo
     steps:
