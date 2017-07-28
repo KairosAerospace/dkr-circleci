@@ -15,3 +15,11 @@ mkdir -p ${COVERAGE_OUTPUT}
 python setup.py nosetests --cover-html --cover-html-dir $COVERAGE_OUTPUT
 
 cp nosetests.xml $TEST_OUTPUT
+
+# test for duplicate packages
+pip freeze built-dependencies.txt
+
+pip install kairos-buildlib
+
+echo "Checking for duplicate packages in the upstream graph"
+duplicate_package_check built-dependencies.txt
