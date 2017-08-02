@@ -28,6 +28,10 @@ script_init() {
   trap error_hook ERR
 }
 
+export -f error_hook
+export -f script_init
+export -f error_exit
+
 # shortcut to exit with error and error message.
 # Invoke with: error_exit <rc> <message>
 #
