@@ -1,9 +1,6 @@
 #!/bin/bash -e
 
-# pipefail shell option means we still bail on error
-set -o pipefail
 
-. $(which kairos_env_init)
 script_init # install error hooks
 
 

@@ -1,9 +1,21 @@
-#!/bin/bash -e
+#!/bin/bash -xe
+
 
 # NOTE: this script must be sourced, not run directly.
 #       It is designed to munge the environment for
 #       builds, placing super-secret-squirrel
 #       credentials in the right place.
+
+# set this to 1 see verbose output
+_KAIROS_VERBOSE=${_KAIROS_VERBOSE:-0}
+
+output() {
+  if [ "${_KAIROS_VERBOSE}" -ne 0 ]; then
+    echo $*
+  else
+    /bin/true
+  fi
+}
 
 # A function to be installed as the error handler (call script_init to install)
 error_hook() {
@@ -48,18 +60,19 @@ check_env AWS_DEFAULT_REGION
 SECRET_SET_NAME=${SECRET_SET_NAME:-default-build-secrets}
 CREDSTASH_TABLE=${CREDSTASH_TABLE:-circleci-secrets}
 
-if [ ! -f .credentials ]; then
+if [ ! -f ~/.kairos-credentials ]; then
   echo "Downloading secrets via credstash"
-  credstash -t ${CREDSTASH_TABLE} get ${SECRET_SET_NAME} > .credentials
+  credstash -t ${CREDSTASH_TABLE} get ${SECRET_SET_NAME} > ~/.kairos-credentials
 else
-  echo "Found cached secrets"
+  output "Found cached secrets"
 fi
 
 # pull the secrets out of a { "name": "value" } JSON object and
 # export them into our environment.
-echo "Publishing secrets as environment variables"
+output "Publishing secrets as environment variables"
+
 eval $(jq -r 'to_entries | .[] | "export " + .key+ "=\"" + .value + "\""' \
-        < .credentials)
+        < ~/.kairos-credentials)
 
 
 if [ ! -f $VIRTUAL_ENV/pip.conf ]; then
@@ -67,7 +80,7 @@ if [ ! -f $VIRTUAL_ENV/pip.conf ]; then
   # pure side effect
   (wire_virtualenv)
 else
-  echo "Found wired virtualenv"
+  output "Found wired virtualenv"
 fi
 
 if [ ! -f /opt/kairos/etc/pypirc ]; then
@@ -86,7 +99,7 @@ fi
 if [ ! -f maps-key.txt ]; then
   if [ ! -z "${KAIROS_MAPS_KEY}" ]; then
     echo ${KAIROS_MAPS_KEY} >> maps-key.txt
-    echo "Wrote map key to maps-key.txt"
+    output "Wrote map key to maps-key.txt"
   else
     echo "No maps key available."
   fi

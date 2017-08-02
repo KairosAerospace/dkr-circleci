@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-. $(which kairos_env_init)
 script_init # install error hooks
 
 # build artifacts to be stored with the build
