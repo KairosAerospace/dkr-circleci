@@ -16,7 +16,7 @@ python setup.py nosetests --cover-html --cover-html-dir $COVERAGE_OUTPUT
 cp nosetests.xml $TEST_OUTPUT
 
 # test for duplicate packages
-pip freeze built-dependencies.txt
+pip freeze > built-dependencies.txt
 
 pip install kairos-buildlib
 
