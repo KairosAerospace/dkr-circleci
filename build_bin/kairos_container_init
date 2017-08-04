@@ -1,0 +1,9 @@
+#!/bin/bash -e
+
+if [ -z "$BASH_ENV" ]; then
+  export BASH_ENV=`mktemp bash_env.XXXXXX`
+fi
+
+# inject shell initializations
+# see https://circleci.com/docs/2.0/env-vars/#interpolating-enviroment-variables-to-set-other-environment-variables
+cat /opt/kairos/config/bashrc >> $BASH_ENV

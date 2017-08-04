@@ -64,6 +64,7 @@ RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/log \
   && mkdir -p /opt/kairos/sbin \
   && mkdir -p /opt/kairos/bin \
+  && mkdir -p /opt/kairos/config \
   && mkdir -p /opt/kairos/build-home
 
 RUN apt-get -y remove virtualenv && pip2 install virtualenv
@@ -85,6 +86,8 @@ ENV PATH /opt/kairos/bin:$PATH
 ENV KAIROS_VENV /opt/kairos/venv
 
 COPY root.bashrc /root/.bashrc
+COPY root.bashrc /opt/kairos/config/bashrc
+RUN chmod -R 755 /opt/kairos/config
 WORKDIR /opt/kairos/build-home
 
 ENTRYPOINT /bin/bash

@@ -1,5 +1,9 @@
 #!/bin/bash -xe
 
+# make sure to avoid recursion in the startup files
+# this makes it so the invoked subshells below
+unset BASH_ENV
+export BASH_ENV
 
 # NOTE: this script must be sourced, not run directly.
 #       It is designed to munge the environment for
