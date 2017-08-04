@@ -6,36 +6,20 @@ jobs:
     working_directory: /opt/kairos/build-home/repo
     steps:
       - checkout
-      - run:
-          name: python dependencies
-          command: kairos_python_dependencies
-      - run:
-          name: python build
-          command: kairos_python_build
-      - run:
-          name: python tests
-          command: kairos_python_tests
-      - run:
-          name: python package
-          command: kairos_python_package
-      - run:
-          name: python deploy
-          command: kairos_python_deploy
-      - run:
-          name: python lambda publish
-          command: kairos_lambda_publish
-      - run:
-          name: build cleanup
-          command: kairos_python_cleanup
+      - run: kairos_container_init
+      - run: kairos_python_dependencies
+      - run: kairos_python_build
+      - run: kairos_python_tests
+      - run: kairos_python_package
+      - run: kairos_python_deploy
+      - run: kairos_lambda_publish
+      - run: kairos_python_cleanup
       - store_artifacts:
           path: test-output
           destination: test-output
       - store_artifacts:
           path: dist
           destination: build-artifacts
-      - store_artifacts:
-          path: logs
-          destination: logs
       - store_test_results:
           path: test-output
 notify:
