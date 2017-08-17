@@ -8,7 +8,8 @@ if [ -f requirements.txt ]; then
   echo "Installing dependencies from requirements.txt."
   echo " See logs/dependencies-install.log in artifacts for detailed output"
   mkdir -p dist
-  # pipe to cat to suppress the status bars.
+  # pipe to cat to suppress the status bars. set pipefail to catch errors
+  set -o pipefail
   pip install --log logs/dependencies-install.log -r requirements.txt | cat
 else
   echo "WARNING: no requirements file found. (this is likely a bug)"
