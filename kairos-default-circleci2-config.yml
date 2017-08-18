@@ -21,7 +21,13 @@ jobs:
           path: dist
           destination: build-artifacts
       - store_test_results:
-          path: test-output
+            path: test-output
 notify:
   webhooks:
     - url: https://bdoa77w3h0.execute-api.us-west-2.amazonaws.com/webhook/
+workflows:
+  version: 2
+  kairos-workflow:
+    jobs:
+      - build:
+          context: org-global
