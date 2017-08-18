@@ -64,11 +64,8 @@ RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/log \
   && mkdir -p /opt/kairos/sbin \
   && mkdir -p /opt/kairos/bin \
-<<<<<<< HEAD
   && mkdir -p /opt/kairos/config \
-=======
   && mkdir -p /opt/kairos/lib \
->>>>>>> 3e1c400... Spark
   && mkdir -p /opt/kairos/build-home
 
 # install Spark

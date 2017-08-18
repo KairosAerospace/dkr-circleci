@@ -1,0 +1,35 @@
+#!/bin/bash -e
+
+cd /opt/kairos/build-home/repo
+
+kairos_container_init
+
+echo ""
+echo ""
+echo "Running kairos_python_dependencies"
+echo ""
+echo ""
+
+kairos_python_dependencies
+
+echo ""
+echo ""
+echo "Running kairos_python_build"
+echo ""
+echo ""
+
+kairos_python_build
+
+echo ""
+echo ""
+echo "Running kairos_python_dependencies"
+echo ""
+echo ""
+
+kairos_python_tests
+
+echo ""
+echo ""
+echo "Kairos Python Build Complete"
+echo ""
+echo ""

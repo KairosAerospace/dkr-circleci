@@ -5,6 +5,10 @@
 unset BASH_ENV
 export BASH_ENV
 
+# make sure to avoid recursion in the startup files
+# this makes it so the invoked subshells below
+export BASH_ENV=/opt/kairos/bin/script_init
+
 # NOTE: this script must be sourced, not run directly.
 #       It is designed to munge the environment for
 #       builds, placing super-secret-squirrel
@@ -23,8 +27,10 @@ output() {
 
 # A function to be installed as the error handler (call script_init to install)
 error_hook() {
-  error_source=${BASH_SOURCE[1]}:${BASH_LINENO[0]}
-  echo "Error at: ${error_source}" 1>&2
+  echo "source: ${BASH_SOURCE[@]}"
+  echo "lines:  ${BASH_LINENO[@]}"
+  echo "funcs:  ${FUNCS[@]}"
+  echo "at ${BASH_SOURCE[1]}:${BASH_LINENO[0]}"
 }
 
 # setups up the error handling in a script
@@ -64,7 +70,8 @@ check_env () {
 
 check_env AWS_SECRET_ACCESS_KEY
 check_env AWS_ACCESS_KEY_ID
-check_env AWS_DEFAULT_REGION
+
+export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-west-2}
 
 SECRET_SET_NAME=${SECRET_SET_NAME:-default-build-secrets}
 CREDSTASH_TABLE=${CREDSTASH_TABLE:-circleci-secrets}
