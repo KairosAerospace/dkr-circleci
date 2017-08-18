@@ -64,8 +64,26 @@ RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/log \
   && mkdir -p /opt/kairos/sbin \
   && mkdir -p /opt/kairos/bin \
+<<<<<<< HEAD
   && mkdir -p /opt/kairos/config \
+=======
+  && mkdir -p /opt/kairos/lib \
+>>>>>>> 3e1c400... Spark
   && mkdir -p /opt/kairos/build-home
+
+# install Spark
+ENV SPARK_DIST spark-2.0.2-bin-hadoop2.7
+ENV SPARK_ARCHIVE ${SPARK_DIST}.tgz
+ENV SPARK_DOWNLOAD_URL https://d3kbcqa49mib13.cloudfront.net/${SPARK_ARCHIVE}
+ENV SPARK_HOME /opt/kairos/lib/spark
+
+
+RUN wget -q $SPARK_DOWNLOAD_URL -O $SPARK_ARCHIVE && \
+    cat $SPARK_ARCHIVE | (cd /opt/kairos/lib ; tar xzvf -) && \
+    mv /opt/kairos/lib/${SPARK_DIST} /opt/kairos/lib/spark
+
+# add Spark to the python path - this exact path changes with each Spark version
+ENV PYTHON_PATH ${SPARK_HOME}/python/lib/py4j-0.10.3-src.zip:${SPARK_HOME}/python/
 
 RUN apt-get -y remove virtualenv && pip2 install virtualenv
 
