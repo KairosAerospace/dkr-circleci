@@ -5,10 +5,6 @@
 unset BASH_ENV
 export BASH_ENV
 
-# make sure to avoid recursion in the startup files
-# this makes it so the invoked subshells below
-export BASH_ENV=/opt/kairos/bin/script_init
-
 # NOTE: this script must be sourced, not run directly.
 #       It is designed to munge the environment for
 #       builds, placing super-secret-squirrel
@@ -27,10 +23,8 @@ output() {
 
 # A function to be installed as the error handler (call script_init to install)
 error_hook() {
-  echo "source: ${BASH_SOURCE[@]}"
-  echo "lines:  ${BASH_LINENO[@]}"
-  echo "funcs:  ${FUNCS[@]}"
-  echo "at ${BASH_SOURCE[1]}:${BASH_LINENO[0]}"
+  error_source=${BASH_SOURCE[1]}:${BASH_LINENO[0]}
+  echo "Error at: ${error_source}" 1>&2
 }
 
 # setups up the error handling in a script
@@ -49,11 +43,6 @@ error_exit() {
   echo "$MESSAGE (from $ERROR_SOURCE)" 1>&2
   exit $RC
 }
-
-export -f error_hook
-export -f script_init
-export -f error_exit
-
 
 . ${KAIROS_VENV}/bin/activate
 
