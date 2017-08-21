@@ -20,7 +20,7 @@ RUN wget https://releases.hashicorp.com/packer/1.0.0/packer_1.0.0_linux_amd64.zi
   && rm packer.zip
 
 # install the same system loadout as the kairos-base production image
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     libgdal1-dev \
     nginx-full \
     python3 \
@@ -58,6 +58,26 @@ RUN apt-get install -y \
     vim \
     zip
 
+# install spark dependencies
+RUN apt-get install -y \
+    openjdk-8-doc \
+    openjdk-8-jdk \
+    openjdk-8-jdk-headless \
+    openjdk-8-jre \
+    openjdk-8-jre-headless \
+    scala=2.11.6-6 \
+    scala-doc \
+    scala-library \
+    scala-mode-el \
+    scala-parser-combinators \
+    scala-xml \
+    scalapack-doc \
+    scalapack-mpi-test \
+    scalapack-pvm-test \
+    scalapack-test-common \
+    maven \
+    libnetlib-java
+
 # create some directories that we may expect to exist
 RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/etc \
@@ -65,7 +85,22 @@ RUN mkdir -p /opt/kairos \
   && mkdir -p /opt/kairos/sbin \
   && mkdir -p /opt/kairos/bin \
   && mkdir -p /opt/kairos/config \
+  && mkdir -p /opt/kairos/lib \
   && mkdir -p /opt/kairos/build-home
+
+# install Spark
+ENV SPARK_DIST spark-2.0.2-bin-hadoop2.7
+ENV SPARK_ARCHIVE ${SPARK_DIST}.tgz
+ENV SPARK_DOWNLOAD_URL https://d3kbcqa49mib13.cloudfront.net/${SPARK_ARCHIVE}
+ENV SPARK_HOME /opt/kairos/lib/spark
+
+
+RUN wget -q $SPARK_DOWNLOAD_URL -O $SPARK_ARCHIVE && \
+    cat $SPARK_ARCHIVE | (cd /opt/kairos/lib ; tar xzf -) && \
+    mv /opt/kairos/lib/${SPARK_DIST} /opt/kairos/lib/spark
+
+# add Spark to the python path - this exact path changes with each Spark version
+ENV PYTHONPATH ${SPARK_HOME}/python/lib/py4j-0.10.3-src.zip:${SPARK_HOME}/python/
 
 RUN apt-get -y remove virtualenv && pip2 install virtualenv
 

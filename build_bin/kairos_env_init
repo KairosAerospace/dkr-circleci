@@ -44,11 +44,6 @@ error_exit() {
   exit $RC
 }
 
-export -f error_hook
-export -f script_init
-export -f error_exit
-
-
 . ${KAIROS_VENV}/bin/activate
 
 export LC_ALL=C.UTF-8
@@ -64,7 +59,8 @@ check_env () {
 
 check_env AWS_SECRET_ACCESS_KEY
 check_env AWS_ACCESS_KEY_ID
-check_env AWS_DEFAULT_REGION
+
+export AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-us-west-2}
 
 SECRET_SET_NAME=${SECRET_SET_NAME:-default-build-secrets}
 CREDSTASH_TABLE=${CREDSTASH_TABLE:-circleci-secrets}

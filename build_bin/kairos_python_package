@@ -1,6 +1,4 @@
 #!/bin/bash -e
 
-script_init # install error hooks
-
 # build artifacts to be stored with the build
 python setup.py sdist bdist_wheel

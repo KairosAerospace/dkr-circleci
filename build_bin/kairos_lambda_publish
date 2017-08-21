@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-script_init # install error hooks
-
 check_env () {
   if [ -z "${!1}" ]; then
     echo "No ${1} defined!" 1>&2
