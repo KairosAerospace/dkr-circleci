@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-script_init # install error hooks
-
 PYPIRC=/opt/kairos/etc/pypirc
 
 if [ -f ./.pypirc ]; then

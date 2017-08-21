@@ -1,7 +1,5 @@
 #!/bin/bash -e
 
-script_init # install error hooks
-
 # enable multiprocessing - all cores
 export NOSE_PROCESSES=-1
 

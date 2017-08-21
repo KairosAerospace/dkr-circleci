@@ -1,6 +1,4 @@
 #!/bin/bash -e
 
-script_init # install error hooks
-
 echo "Preserving virtual environment: dist/build-virtualenv.tgz"
 (cd /opt/kairos && tar zcf - venv) > dist/build-virtualenv.tgz
