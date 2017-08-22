@@ -1,10 +1,12 @@
 #!/bin/bash -e
 
+# Circle creates their own BASH_ENV
 if [ -z "$BASH_ENV" ]; then
-  export BASH_ENV=`mktemp bash_env.XXXXXX`
+  export BASH_ENV=`mktemp /opt/kairos/etc/bash_env.XXXXXX`
 fi
 
 # inject shell initializations
 # see https://circleci.com/docs/2.0/env-vars/#interpolating-enviroment-variables-to-set-other-environment-variables
-cat /opt/kairos/config/bashrc >> $BASH_ENV
+kairos_env_init
+cat $(which kairos_env_init) >> $BASH_ENV
 echo "Mapped Kairos shell initialization into all bash invocations (so you don't have to)"

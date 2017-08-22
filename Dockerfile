@@ -120,9 +120,14 @@ RUN chmod -R 755 /opt/kairos/bin
 ENV PATH /opt/kairos/bin:$PATH
 ENV KAIROS_VENV /opt/kairos/venv
 
-COPY root.bashrc /root/.bashrc
-COPY root.bashrc /opt/kairos/config/bashrc
+# set up a default $BASH_ENV that's a no-op so it can be overridden by Circle
+# (and thus given a single path to overriding their behavior)
+COPY shell_init/empty.bashrc /opt/kairos/config/bashenv
+COPY shell_init/root.bashrc /root/.bashrc
+ENV BASH_ENV /opt/kairos/config/bashenv
+
 RUN chmod -R 755 /opt/kairos/config
+
 WORKDIR /opt/kairos/build-home
 
 ENTRYPOINT /bin/bash

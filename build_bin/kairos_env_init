@@ -1,19 +1,24 @@
-#!/bin/bash -xe
+#!/bin/bash -e
 
-# make sure to avoid recursion in the startup files
-# this makes it so the invoked subshells below
-unset BASH_ENV
-export BASH_ENV
 
 # NOTE: this script must be sourced, not run directly.
 #       It is designed to munge the environment for
 #       builds, placing super-secret-squirrel
 #       credentials in the right place.
 
+
+# if [ ${KAIROS_INIT:-0} -eq 1 ]; then
+#    # recursive invocation base case
+#    return 0
+# else
+#   export KAIROS_INIT=1
+# fi
+
+
 # set this to 1 see verbose output
 _KAIROS_VERBOSE=${_KAIROS_VERBOSE:-0}
 
-output() {
+output () {
   if [ "${_KAIROS_VERBOSE}" -ne 0 ]; then
     echo $*
   else
@@ -21,28 +26,27 @@ output() {
   fi
 }
 
-# A function to be installed as the error handler (call script_init to install)
-error_hook() {
-  error_source=${BASH_SOURCE[1]}:${BASH_LINENO[0]}
-  echo "Error at: ${error_source}" 1>&2
-}
+export -f output
 
-# setups up the error handling in a script
-script_init() {
-  trap error_hook ERR
+# A function to be installed as the error handler (call script_init to install)
+error_hook () {
+  error_source=${BASH_SOURCE[1]:-(interactive)}:${BASH_LINENO[0]}
+  echo "Error at: ${error_source}" 1>&2
 }
 
 # shortcut to exit with error and error message.
 # Invoke with: error_exit <rc> <message>
 #
 # Note: this will not invoke the error handler
-error_exit() {
+error_exit () {
   RC=$1
   MESSAGE=$2
   ERROR_SOURCE=${BASH_SOURCE[1]}:${BASH_LINENO[0]}
   echo "$MESSAGE (from $ERROR_SOURCE)" 1>&2
   exit $RC
 }
+
+trap error_hook ERR
 
 . ${KAIROS_VENV}/bin/activate
 
@@ -56,6 +60,9 @@ check_env () {
   fi
   return 0
 }
+
+# trap error_hook ERR
+
 
 check_env AWS_SECRET_ACCESS_KEY
 check_env AWS_ACCESS_KEY_ID
