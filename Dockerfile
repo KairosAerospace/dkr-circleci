@@ -14,7 +14,7 @@ RUN apt-key add /root/dockerproject.gpg \
   && apt-get install -y docker-engine
 
 # install  packer
-RUN wget https://releases.hashicorp.com/packer/1.0.0/packer_1.0.0_linux_amd64.zip -O packer.zip \
+RUN wget https://releases.hashicorp.com/packer/1.0.4/packer_1.0.4_linux_amd64.zip -O packer.zip \
   && unzip packer.zip \
   && mv packer /usr/bin \
   && rm packer.zip
