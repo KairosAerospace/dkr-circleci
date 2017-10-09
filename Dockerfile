@@ -56,7 +56,8 @@ RUN apt-get update && apt-get install -y \
     manpages \
     man \
     vim \
-    zip
+    zip \
+    screen
 
 # install spark dependencies
 RUN apt-get install -y \
