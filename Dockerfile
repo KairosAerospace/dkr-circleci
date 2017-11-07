@@ -57,7 +57,11 @@ RUN apt-get update && apt-get install -y \
     man \
     vim \
     zip \
-    screen
+    screen \
+    strace \
+    lsof \
+    net-tools
+
 
 # install spark dependencies
 RUN apt-get install -y \
