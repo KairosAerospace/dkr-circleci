@@ -1,0 +1,14 @@
+
+# make sure we can access github repos for dependency links
+CREDSTASH_TABLE=${CREDSTASH_TABLE:-circleci-secrets}
+GITHUB_PRIVATE_KEY=${GITHUB_PRIVATE_KEY:-github_machine_user_private_key}
+mkdir -p ~/.ssh
+credstash -t ${CREDSTASH_TABLE} get ${GITHUB_PRIVATE_KEY} > ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
+touch ~/.ssh/config
+cat - >> ~/.ssh/config <<EOF
+ Host github.com
+   IdentityFile /root/.ssh/id_rsa
+   IdentitiesOnly yes
+   StrictHostKeyChecking no
+EOF
