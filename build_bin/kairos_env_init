@@ -96,7 +96,7 @@ else
 fi
 
 # force processing of dependency links
-cat - > $VIRTUAL_ENV/pip.conf <<EOF
+cat - >> $VIRTUAL_ENV/pip.conf <<EOF
 [install]
 process-dependency-links = yes
 trusted-host =
@@ -143,7 +143,8 @@ touch ~/.ssh/config
 cat - >> ~/.ssh/config <<EOF
  Host github.com
    IdentityFile /root/.ssh/id_rsa
-  IdentitiesOnly yes
+   IdentitiesOnly yes
+   StrictHostKeyChecking no
 EOF
 
 # set up
