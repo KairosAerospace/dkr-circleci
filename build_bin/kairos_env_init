@@ -95,14 +95,6 @@ else
   output "Found wired virtualenv"
 fi
 
-# force processing of dependency links
-cat - >> $VIRTUAL_ENV/pip.conf <<EOF
-[install]
-process-dependency-links = yes
-trusted-host =
- github.com
-EOF
-
 if [ ! -f /opt/kairos/etc/pypirc ]; then
   echo "Wiring package publishing config"
   # set up publishing default
