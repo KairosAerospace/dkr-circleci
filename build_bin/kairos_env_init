@@ -95,6 +95,14 @@ else
   output "Found wired virtualenv"
 fi
 
+# force processing of dependency links
+cat - > $VIRTUAL_ENV/pip.conf <<EOF
+[install]
+process-dependency-links = yes
+trusted-host =
+ github.com
+EOF
+
 if [ ! -f /opt/kairos/etc/pypirc ]; then
   echo "Wiring package publishing config"
   # set up publishing default
@@ -125,3 +133,18 @@ fi
 
 # make sure certain directories exist
 mkdir -p logs
+
+# add github machine user keys
+mkdir -p ~/.ssh
+GITHUB_PRIVATE_KEY=${GITHUB_PRIVATE_KEY:-github_machine_user_private_key}
+credstash -t ${CREDSTASH_TABLE} get ${GITHUB_PRIVATE_KEY} > ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
+touch ~/.ssh/config
+cat - >> ~/.ssh/config <<EOF
+ Host github.com
+   IdentityFile /root/.ssh/id_rsa
+  IdentitiesOnly yes
+EOF
+
+# set up
+
