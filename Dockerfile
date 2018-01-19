@@ -133,6 +133,11 @@ ENV BASH_ENV /opt/kairos/config/bashenv
 
 RUN chmod -R 755 /opt/kairos/config
 
+RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh
+COPY config/ssh_config /root/.ssh/config
+COPY config/known_hosts /root/.ssh/known_hosts
+RUN chmod 600 /root/.ssh/*
+
 WORKDIR /opt/kairos/build-home
 
 ENTRYPOINT /bin/bash

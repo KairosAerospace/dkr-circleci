@@ -126,7 +126,15 @@ fi
 # make sure certain directories exist
 mkdir -p logs
 
-kairos_ssh_init
+GITHUB_KEYFILE=${GITHUB_KEYFILE:-id_github}
 
+
+if [ ! -f ~/.ssh/$GITHUB_KEYFILE ]; then
+  # make sure we can access github repos for dependency links
+  GITHUB_PRIVATE_KEY=${GITHUB_PRIVATE_KEY:-github_machine_user_private_key}
+  credstash -t ${CREDSTASH_TABLE} get ${GITHUB_PRIVATE_KEY} > ~/.ssh/$GITHUB_KEYFILE
+  chmod 600 ~/.ssh/$GITHUB_KEYFILE
+
+fi
 # set up
 
