@@ -1,9 +1,6 @@
 IdentityFile ~/.ssh/id_rsa
 
 Host github.com
-   # our code checkout key for packages
-   IdentityFile /root/.ssh/id_github
-   # the CircleCI checkout key
    IdentityFile ~/.ssh/id_rsa
    IdentitiesOnly yes
    StrictHostKeyChecking no
