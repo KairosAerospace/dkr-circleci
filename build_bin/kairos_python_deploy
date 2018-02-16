@@ -7,7 +7,7 @@ if [ -f ./.pypirc ]; then
 fi
 
 
-if [[ "${CIRCLE_BRANCH}" =~ ([xmp]-.*|master|dev|staging) ]]; then
+if [[ "${CIRCLE_BRANCH}" =~ ^([xmp]-.*|master|dev|staging)$ ]]; then
   twine upload -u $KAIROS_PUBLISH_USER -p $KAIROS_PUBLISH_API_KEY -r artifactory-python3 --config-file $PYPIRC ./dist/*
 else
   echo "No deployment configured for branch ${CIRCLE_BRANCH}"
