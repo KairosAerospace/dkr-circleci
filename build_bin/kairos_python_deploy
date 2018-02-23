@@ -6,6 +6,14 @@ if [ -f ./.pypirc ]; then
   PYPIRC=./.pypirc
 fi
 
+# make sure we normalize names to use dashes
+for pkg in ./dist/*; do
+  normalized=$(echo $pkg | sed 's/_/-/g')
+  if [ pkg != normalized ]; then
+    mv $pkg $normalized
+    echo "Normalized package: ${pkg} --> ${normalized}"
+  fi
+done
 
 if [[ "${CIRCLE_BRANCH}" =~ ^([xmp]-.*|master|dev|staging)$ ]]; then
   twine upload -u $KAIROS_PUBLISH_USER -p $KAIROS_PUBLISH_API_KEY -r artifactory-python3 --config-file $PYPIRC ./dist/*
