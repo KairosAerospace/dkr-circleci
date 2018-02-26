@@ -9,7 +9,7 @@ fi
 # make sure we normalize names to use dashes
 for pkg in ./dist/*; do
   normalized=$(echo $pkg | sed 's/_/-/g')
-  if [ "${pkg}"" != "${normalized}" ]; then
+  if [ "${pkg}" != "${normalized}" ]; then
     mv $pkg $normalized
     echo "Normalized package: ${pkg} --> ${normalized}"
   fi
