@@ -9,9 +9,7 @@ TEST_OUTPUT=test-output/nosetests
 mkdir -p ${TEST_OUTPUT}
 mkdir -p ${COVERAGE_OUTPUT}
 
-python setup.py nosetests --cover-html --cover-html-dir $COVERAGE_OUTPUT
-
-cp nosetests.xml $TEST_OUTPUT
+python setup.py nosetests --xunit-file ${TEST_OUTPUT}/nosetests.xml --cover-html --cover-html-dir $COVERAGE_OUTPUT
 
 # test for duplicate packages
 pip freeze > built-dependencies.txt
