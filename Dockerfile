@@ -60,7 +60,8 @@ RUN apt-get update && apt-get install -y \
     screen \
     strace \
     lsof \
-    net-tools
+    net-tools \
+    rsync
 
 
 # install spark dependencies
