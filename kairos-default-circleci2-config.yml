@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: kairosaero/dkr-circleci:latest
+      - image: kairosaero/dkr-circleci:production
     working_directory: /opt/kairos/build-home/repo
     steps:
       - checkout
