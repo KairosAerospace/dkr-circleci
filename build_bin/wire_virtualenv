@@ -14,6 +14,7 @@ if [ ! -z "${KAIROS_PYPI_USERNAME}" -a ! -z "${KAIROS_PYPI_API_KEY}" -a ! -z "${
    cat > ${VIRTUALENV_PATH}/pip.conf <<-EOF
 [global]
 index-url=https://${KAIROS_PYPI_USERNAME}:${KAIROS_PYPI_API_KEY}@${KAIROS_PYPI_URL}/simple
+disable-pip-version-check = yes
 
 [search]
 index=https://${KAIROS_PYPI_USERNAME}:${KAIROS_PYPI_API_KEY}@${KAIROS_PYPI_URL}
@@ -30,7 +31,7 @@ else
 fi
 
 . ${VIRTUALENV_PATH}/bin/activate
-pip install --upgrade kairos-buildlib
+pip install kairos-buildlib
 deactivate
 
 echo "virtualenv at ${VIRTUALENV_PATH} now wired to Kairos PyPI repository"
