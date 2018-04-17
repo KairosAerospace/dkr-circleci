@@ -113,8 +113,9 @@ RUN apt-get -y remove virtualenv && pip2 install virtualenv
 # create an empty python virtual env for the build
 RUN virtualenv -p `which python3` --prompt="(kairos-python3)" /opt/kairos/venv
 
+# pin pip to version 9
 RUN . /opt/kairos/venv/bin/activate \
-  && pip install --upgrade pip setuptools twine wheel coverage credstash \
+  && pip install --upgrade "pip<10" setuptools twine wheel coverage credstash \
   && deactivate
 
 RUN . /opt/kairos/venv/bin/activate \
