@@ -16,12 +16,6 @@ for pkg in ./dist/*; do
 done
 
 if [[ "${CIRCLE_BRANCH}" =~ ^([xmp]-.*|master|dev|staging)$ ]]; then
-  PYPIRC=/opt/kairos/etc/pypirc
-
-  echo "password=${KAIROS_PUBLISH_API_KEY}" >> ${PYPIRC}
-
-  # setup needs it to be this way
-  cp ${PYPIRC} ~/.pypirc
 
   python setup.py bdist_wheel upload -r artifactory-python3 --show-response
 
