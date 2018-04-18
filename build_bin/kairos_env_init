@@ -104,8 +104,12 @@ index-servers = artifactory-python3
 
 [artifactory-python3]
 username = ${KAIROS_PUBLISH_USER}
+password = ${KAIROS_PUBLISH_API_KEY}
 repository = https://${KAIROS_PYPI_PUBLISH_URL}
 EOF
+
+ln -fs /opt/kairos/etc/pypirc ~/.pypirc
+
 fi
 
 if [ ! -f maps-key.txt ]; then
@@ -139,4 +143,3 @@ if [ ! -f ~/.ssh/$GITHUB_KEYFILE ]; then
 
 fi
 # set up
-

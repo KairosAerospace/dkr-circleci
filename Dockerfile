@@ -139,6 +139,8 @@ RUN mkdir -p /root/.ssh && chmod 700 /root/.ssh
 COPY config/ssh_config /root/.ssh/config
 RUN chmod 600 /root/.ssh/*
 
+COPY config/python-constraints.txt /opt/kairos/etc
+
 WORKDIR /opt/kairos/build-home
 
 ENTRYPOINT /bin/bash
