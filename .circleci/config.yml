@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: kairosaero/dkr-circleci:production
+    working_directory: /opt/kairos/build-home/repo
+    environment:
+      registry: 137296740171.dkr.ecr.us-west-2.amazonaws.com
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: docker build -t dkr-circleci .
+      - run: docker tag dkr-circleci:latest ${registry}/dkr-circleci:latest
+      - run: docker push ${registry}/dkr-circleci:latest
+notify:
+  webhooks:
+    - url: https://bdoa77w3h0.execute-api.us-west-2.amazonaws.com/webhook/
+workflows:
+  version: 2
+  kairos-workflow:
+    jobs:
+      - build:
+          context: org-global
