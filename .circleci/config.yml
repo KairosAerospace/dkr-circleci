@@ -14,6 +14,7 @@ jobs:
           name: push to docker registry
           command: |
             # login to ECR
+            pip install -q awscli
             $(aws ecr get-login --no-include-email --region us-west-2)
 
             # apply appropriate tags and push
