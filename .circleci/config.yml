@@ -20,9 +20,12 @@ jobs:
             # apply appropriate tags and push
             if [[ $CIRCLE_BRANCH == "master" ]]; then
               docker tag dkr-circleci:latest ${registry}/dkr-circleci:latest
+              docker tag dkr-circleci:latest ${registry}/dkr-circleci:master
+              docker push ${registry}/dkr-circleci:latest
+              docker push ${registry}/dkr-circleci:master
             else
-              docker tag dkr-circleci:latest ${registry}/dkr-circleci/${CIRCLE_BRANCH}:latest
-              docker push ${registry}/dkr-circleci/${CIRCLE_BRANCH}:latest
+              docker tag dkr-circleci:latest ${registry}/dkr-circleci:${CIRCLE_BRANCH}
+              docker push ${registry}/dkr-circleci:${CIRCLE_BRANCH}
             fi
 notify:
   webhooks:
